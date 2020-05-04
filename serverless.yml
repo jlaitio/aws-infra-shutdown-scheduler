@@ -1,0 +1,33 @@
+service:
+  name: aws-infra-shutdown-scheduler
+
+custom:
+  webpack:
+    webpackConfig: ./webpack.config.js
+    includeModules: true
+
+plugins:
+  - serverless-webpack
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  region: eu-west-1
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - ecs:UpdateService
+        - rds:StopDBCluster
+        - rds:StartDBCluster
+        - autoscaling:UpdateAutoScalingGroup
+      Resource: "*"
+
+functions:
+  shutdown:
+    handler: handler.shutdown
+    events:
+      - schedule: cron(0 18 ? * MON-FRI *) # Modify as needed
+  startup:
+    handler: handler.startup
+    events:
+      - schedule: cron(0 3 ? * MON-FRI *) # Modify as needed
