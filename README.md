@@ -17,3 +17,8 @@ Supported types of infrastructure:
 6. `npm install`
 7. Login into your AWS profile in your shell
 8. `sls deploy`
+
+If you want to manually start / shutdown the infrastructure (say, for working on something critical on a weekend) you can manually invoke the functions:
+
+Start: `sls invoke -f startup`
+Shutdown: `sls invoke -f shutdown`
